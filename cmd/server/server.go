@@ -41,7 +41,7 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:  "server",
-			Usage: "Run the http server",
+			Usage: "Run UIS http server",
 			Action: func(c *cli.Context) {
 				cfg, err := getConfig(c)
 				if err != nil {

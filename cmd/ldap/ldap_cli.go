@@ -25,14 +25,15 @@ func main() {
 			Name:  "add",
 			Usage: "(title description) Create an ldap user",
 			Action: func(c *cli.Context) {
-				title := c.Args().Get(0)
-				desc := c.Args().Get(1)
+				user_id := c.Args().Get(0)				//title
+				user_password := c.Args().Get(1)		//description
+				ldap_host := c.Args().Get(2)
 
 				host := c.GlobalString("host")
 
-				client := client.TodoClient{Host: host}
+				client := client.LdapClient{Host: host}
 
-				todo, err := client.CreateTodo(title, desc)
+				todo, err := client.CreateLdapUser(user_id, user_password, ldap_host)
 				if err != nil {
 					log.Fatal(err)
 					return
@@ -42,14 +43,14 @@ func main() {
 		},
 		{
 			Name:  "ls",
-			Usage: "list all todos",
+			Usage: "list all ldap users",
 			Action: func(c *cli.Context) {
 
 				host := c.GlobalString("host")
 
 				client := client.TodoClient{Host: host}
 
-				todos, err := client.GetAllTodos()
+				todos, err := client.GetAllLdapUsers()
 				if err != nil {
 					log.Fatal(err)
 					return

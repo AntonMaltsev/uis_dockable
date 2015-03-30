@@ -1,6 +1,6 @@
 package api
 
-type Todo struct {
+type LdapUser struct {
 	Id          int32  `json:"id"`
 	Created     int32  `json:"created"`
 	Status      string `json:"status"`

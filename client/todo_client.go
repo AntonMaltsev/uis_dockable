@@ -12,41 +12,41 @@ type LdapClient struct {
 	Host string
 }
 
-func (tc *LdapClient) CreateLdapUser(title string, description string) (api.Todo, error) {
-	var respTodo api.Todo
-	todo := api.Todo{Title: title, Description: description}
+func (tc *LdapClient) CreateLdapUser(user_id string, user_password string, ldap_server string) (api.LdapUser, error) {
+	var respLdap api.LdapUser
+	todo := api.LdapUser{User: user_id, Password: user_password, LdapServer: ldap_server}
 
 	url := tc.Host + "/ldap"
 	r, err := makeRequest("POST", url, todo)
 	if err != nil {
-		return respTodo, err
+		return respLdap, err
 	}
-	err = processResponseEntity(r, &respTodo, 201)
-	return respTodo, err
+	err = processResponseEntity(r, &respLdap, 201)
+	return respLdap, err
 }
 
-func (tc *LdapClient) GetAllLdapUsers() ([]api.Todo, error) {
-	var respTodos []api.Todo
+func (tc *LdapClient) GetAllLdapUsers() ([]api.LdapUser, error) {
+	var respLdaps []api.LdapUser
 
 	url := tc.Host + "/ldap"
 	r, err := makeRequest("GET", url, nil)
 	if err != nil {
-		return respTodos, err
+		return respLdaps, err
 	}
-	err = processResponseEntity(r, &respTodos, 200)
-	return respTodos, err
+	err = processResponseEntity(r, &respLdaps, 200)
+	return respLdaps, err
 }
 
-func (tc *LdapClient) GetLdapUSer(id int32) (api.Todo, error) {
-	var respTodo api.Todo
+func (tc *LdapClient) GetLdapUSer(id int32) (api.LdapUser, error) {
+	var respLdap api.LdapUser
 
 	url := tc.Host + "/ldap/" + strconv.FormatInt(int64(id), 10)
 	r, err := makeRequest("GET", url, nil)
 	if err != nil {
-		return respTodo, err
+		return respLdap, err
 	}
-	err = processResponseEntity(r, &respTodo, 200)
-	return respTodo, err
+	err = processResponseEntity(r, &respLdap, 200)
+	return respLdap, err
 }
 
 func (tc *LdapClient) DeleteLdapUser(id int32) error {

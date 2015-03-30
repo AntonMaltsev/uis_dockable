@@ -15,40 +15,41 @@ type Config struct {
 	DbName     string
 }
 
-type TodoService struct {
+type LdapService struct {
 }
 
-func (s *TodoService) getDb(cfg Config) (gorm.DB, error) {
+func (s *LdapService) getDb(cfg Config) (gorm.DB, error) {
 	connectionString := cfg.DbUser + ":" + cfg.DbPassword + "@tcp(" + cfg.DbHost + ":3306)/" + cfg.DbName + "?charset=utf8&parseTime=True"
 
 	return gorm.Open("mysql", connectionString)
 }
 
-func (s *TodoService) Migrate(cfg Config) error {
+func (s *LdapService) Migrate(cfg Config) error {
 	db, err := s.getDb(cfg)
 	if err != nil {
 		return err
 	}
 	db.SingularTable(true)
 
-	db.AutoMigrate(&api.Todo{})
+	db.AutoMigrate(&api.LdapUser{})
 	return nil
 }
-func (s *TodoService) Run(cfg Config) error {
+func (s *LdapService) Run(cfg Config) error {
 	db, err := s.getDb(cfg)
 	if err != nil {
 		return err
 	}
 	db.SingularTable(true)
 
-	todoResource := &TodoResource{db: db}
+	ldapResource := &TodoResource{db: db}
 
-	r := gin.Default()
+	// creating GIN Ldap router 
+	r := gin.Default()	
 
-	r.GET("/ldap", todoResource.GetAllUsers)
-	r.GET("/ldap/:id", todoResource.GetUser)
-	r.POST("/ldap", todoResource.CreateUser)
-	r.DELETE("/ldap/:id", todoResource.DeleteUser)
+	r.POST("/ldap", ldapResource.CreateUser)
+	r.GET("/ldap", ldapResource.GetAllUsers)
+	r.GET("/ldap/:id", ldapResource.GetUser)
+	r.DELETE("/ldap/:id", ldapResource.DeleteUser)
 
 	r.Run(cfg.SvcHost)
 

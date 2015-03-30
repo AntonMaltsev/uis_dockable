@@ -54,6 +54,23 @@ func (tr *TodoResource) GetUser(c *gin.Context) {
 	}
 }
 
+func (tr *TodoResource) DeleteUser(c *gin.Context) {
+	id, err := tr.getId(c)
+	if err != nil {
+		c.JSON(400, api.NewError("problem decoding id sent"))
+		return
+	}
+
+	var todo api.Todo
+
+	if tr.db.First(&todo, id).RecordNotFound() {
+		c.JSON(404, api.NewError("not found"))
+	} else {
+		tr.db.Delete(&todo)
+		c.Data(204, "application/json", make([]byte, 0))
+	}
+}
+
 func (tr *TodoResource) getId(c *gin.Context) (int32, error) {
 	idStr := c.Params.ByName("id")
 	id, err := strconv.Atoi(idStr)

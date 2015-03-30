@@ -1,3 +1,7 @@
+go-todo
+cmd/server/server
+cmd/todo/todo
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

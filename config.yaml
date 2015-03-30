@@ -1,0 +1,5 @@
+svchost: :8080
+dbuser: root
+dbpassword: root
+dbhost: localhost
+dbname: todo

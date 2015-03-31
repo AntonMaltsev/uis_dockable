@@ -10,23 +10,23 @@ import (
 var _ = fmt.Print // For debugging; delete when done.
 var _ = log.Print // For debugging; delete when done.
 
-func TestCreateTodo(t *testing.T) {
+func TestCreateLdap(t *testing.T) {
 
 	// given
-	client := client.TodoClient{Host: "http://localhost:8080"}
+	client := client.LdapClient{Host: "http://localhost:8080"}
 
 	// when
-	todo, err := client.CreateTodo("foo", "bar")
+	todo, err := client.CreateLdapUser("amaltsev", "12345", "ldap://myserver:389")
 
 	//then
 	if err != nil {
 		t.Error(err)
 	}
 
-	if todo.Title != "foo" && todo.Description != "bar" {
-		t.Error("returned todo not right")
+	if todo.User != "amaltsev" && todo.Password != "12345" && todo.LdapServer != "ldap://myserver:389" {
+		t.Error("returned Ldap user is not right")
 	}
 
 	// cleanup
-	_ = client.DeleteTodo(todo.Id)
+	_ = client.DeleteLdapUser(todo.Id)
 }

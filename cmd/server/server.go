@@ -10,6 +10,7 @@ import (
 	"os"
 )
 
+// Getting configuration file data
 func getConfig(c *cli.Context) (service.Config, error) {
 	yamlPath := c.GlobalString("config")
 	config := service.Config{}
@@ -49,9 +50,26 @@ func main() {
 					return
 				}
 
-				svc := service.TodoService{}
+				svc := service.LdapService{}
 
 				if err = svc.Run(cfg); err != nil {
+					log.Fatal(err)
+				}
+			},
+		},
+		{
+			Name:  "migratedb",
+			Usage: "Perform Ldap database migrations",
+			Action: func(c *cli.Context) {
+				cfg, err := getConfig(c)
+				if err != nil {
+					log.Fatal(err)
+					return
+				}
+
+				svc := service.LdapService{}
+
+				if err = svc.Migrate(cfg); err != nil {
 					log.Fatal(err)
 				}
 			},

@@ -6,10 +6,11 @@ type LdapUser struct {
 	Password   string 	`json:"ldap_password" binding:"required"`
 	LdapServer string 	`json:"ldap_server"`
 	Created 	int32 	`json:"created"`
+	Status 		string 	`json:"status"`
 }
 
+// Ldap user status
 const (
-	TodoStatus  string = "todo"
-	DoingStatus string = "doing"
-	DoneStatus  string = "done"
+	ActiveStatus  string = "active"
+	DisableStatus string = "disabled"
 )

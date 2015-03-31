@@ -2,12 +2,12 @@ default: build
 
 clean:
 	rm -f cmd/server/server
-	rm -f cmd/todo/todo
+	rm -f cmd/ldap/ldap
 
 build:
 	cd cmd/server; \
 	go build
-	cd cmd/todo; \
+	cd cmd/ldap; \
 	go build
 
 deps:

@@ -6,7 +6,7 @@ import (
 	"github.com/codegangsta/cli"
 	"log"
 	"os"
-	"strconv"
+	// "strconv"
 )
 
 func main() {
@@ -48,7 +48,7 @@ func main() {
 
 				host := c.GlobalString("host")
 
-				client := client.TodoClient{Host: host}
+				client := client.LdapClient{Host: host}
 
 				todos, err := client.GetAllLdapUsers()
 				if err != nil {

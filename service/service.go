@@ -41,7 +41,7 @@ func (s *LdapService) Run(cfg Config) error {
 	}
 	db.SingularTable(true)
 
-	ldapResource := &TodoResource{db: db}
+	ldapResource := &LdapResource{db: db}
 
 	// creating GIN Ldap router 
 	r := gin.Default()	

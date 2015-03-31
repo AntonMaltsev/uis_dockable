@@ -10,34 +10,34 @@ import (
 var _ = fmt.Print // For debugging; delete when done.
 var _ = log.Print // For debugging; delete when done.
 
-func TestDeleteTodo(t *testing.T) {
+func TestDeleteLdap(t *testing.T) {
 
 	// given
-	client := client.TodoClient{Host: "http://localhost:8080"}
-	todo, _ := client.CreateTodo("foo", "bar")
+	client := client.LdapClient{Host: "http://localhost:8080"}
+	todo, _ := client.CreateLdapUser("amaltsev", "12345", "ldap://myserver:389")
 	id := todo.Id
 
 	// when
-	err := client.DeleteTodo(id)
+	err := client.DeleteLdapUser(id)
 
 	// then
 	if err != nil {
 		t.Error(err)
 	}
 
-	_, err = client.GetTodo(id)
+	_, err = client.GetLdapUser(id)
 	if err == nil {
 		t.Error(err)
 	}
 }
 
-func TestDeleteNotFoundTodo(t *testing.T) {
+func TestDeleteNotFoundLdap(t *testing.T) {
 
 	// given
-	client := client.TodoClient{Host: "http://localhost:8080"}
+	client := client.LdapClient{Host: "http://localhost:8080"}
 	id := int32(3)
 	// when
-	err := client.DeleteTodo(id)
+	err := client.DeleteLdapUser(id)
 
 	// then
 	if err == nil {

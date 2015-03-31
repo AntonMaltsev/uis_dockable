@@ -12,6 +12,10 @@ type LdapClient struct {
 	Host string
 }
 
+// Ldap CRUD 
+// Update - todo
+
+//	CREATE
 func (tc *LdapClient) CreateLdapUser(user_id string, user_password string, ldap_server string) (api.LdapUser, error) {
 	var respLdap api.LdapUser
 	todo := api.LdapUser{User: user_id, Password: user_password, LdapServer: ldap_server}
@@ -25,6 +29,7 @@ func (tc *LdapClient) CreateLdapUser(user_id string, user_password string, ldap_
 	return respLdap, err
 }
 
+//	READ
 func (tc *LdapClient) GetAllLdapUsers() ([]api.LdapUser, error) {
 	var respLdaps []api.LdapUser
 
@@ -37,7 +42,8 @@ func (tc *LdapClient) GetAllLdapUsers() ([]api.LdapUser, error) {
 	return respLdaps, err
 }
 
-func (tc *LdapClient) GetLdapUSer(id int32) (api.LdapUser, error) {
+//	READ
+func (tc *LdapClient) GetLdapUser(id int32) (api.LdapUser, error) {
 	var respLdap api.LdapUser
 
 	url := tc.Host + "/ldap/" + strconv.FormatInt(int64(id), 10)
@@ -49,6 +55,7 @@ func (tc *LdapClient) GetLdapUSer(id int32) (api.LdapUser, error) {
 	return respLdap, err
 }
 
+// DELETE
 func (tc *LdapClient) DeleteLdapUser(id int32) error {
 	url := tc.Host + "/ldap/" + strconv.FormatInt(int64(id), 10)
 	r, err := makeRequest("DELETE", url, nil)

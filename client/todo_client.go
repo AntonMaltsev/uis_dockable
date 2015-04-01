@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/AntonMaltsev/uis_dockable/api"
+	"github.com/AntonMaltsev/uis_dockable/cmd/ldap"
 	"log"
 	"strconv"
 )

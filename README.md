@@ -2,8 +2,6 @@
 
 This microservices project is using the [Gin](http://gin-gonic.github.io/gin/) web framework.
 
-See the [blog post](http://txt.fliglio.com/2014/07/restful-microservices-in-go-with-gin/) for a walk through.
-
 ### Hacking
 
 #### Build Service

@@ -64,7 +64,7 @@ func TestGetAllLdapUsers(t *testing.T) {
 	}
 
 	if len(todos) != 2 {
-		t.Errorf("wrong number of todos: %d", len(todos))
+		t.Errorf("wrong number of Ldap users: %d", len(todos))
 	}
 	if todos[0].User != "amaltsev" && todos[0].Password != "12345"  && todos[0].LdapServer != "ldap://myserver:389" {
 		t.Error("returned Ldap user not right")

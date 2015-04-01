@@ -9,18 +9,18 @@ import (
 	"time"
 )
 
-type TodoResource struct {
+type LdapResource struct {
 	db gorm.DB
 }
 
-func (tr *TodoResource) CreateUser(c *gin.Context) {
-	var todo api.Todo
+func (tr *LdapResource) CreateUser(c *gin.Context) {
+	var todo api.LdapUser
 
 	if !c.Bind(&todo) {
 		c.JSON(400, api.NewError("problem decoding body"))
 		return
 	}
-	todo.Status = api.TodoStatus
+	todo.Status = api.ActiveStatus
 	todo.Created = int32(time.Now().Unix())
 
 	
@@ -30,22 +30,22 @@ func (tr *TodoResource) CreateUser(c *gin.Context) {
 	c.JSON(201, todo)
 }
 
-func (tr *TodoResource) GetAllUsers(c *gin.Context) {
-	var todos []api.Todo
+func (tr *LdapResource) GetAllUsers(c *gin.Context) {
+	var todos []api.LdapUser
 
 	tr.db.Order("created desc").Find(&todos)
 
 	c.JSON(200, todos)
 }
 
-func (tr *TodoResource) GetUser(c *gin.Context) {
+func (tr *LdapResource) GetUser(c *gin.Context) {
 	id, err := tr.getId(c)
 	if err != nil {
 		c.JSON(400, api.NewError("problem decoding id sent"))
 		return
 	}
 
-	var todo api.Todo
+	var todo api.LdapUser
 
 	if tr.db.First(&todo, id).RecordNotFound() {
 		c.JSON(404, gin.H{"error": "not found"})
@@ -54,14 +54,14 @@ func (tr *TodoResource) GetUser(c *gin.Context) {
 	}
 }
 
-func (tr *TodoResource) DeleteUser(c *gin.Context) {
+func (tr *LdapResource) DeleteUser(c *gin.Context) {
 	id, err := tr.getId(c)
 	if err != nil {
 		c.JSON(400, api.NewError("problem decoding id sent"))
 		return
 	}
 
-	var todo api.Todo
+	var todo api.LdapUser
 
 	if tr.db.First(&todo, id).RecordNotFound() {
 		c.JSON(404, api.NewError("not found"))
@@ -71,7 +71,7 @@ func (tr *TodoResource) DeleteUser(c *gin.Context) {
 	}
 }
 
-func (tr *TodoResource) getId(c *gin.Context) (int32, error) {
+func (tr *LdapResource) getId(c *gin.Context) (int32, error) {
 	idStr := c.Params.ByName("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
